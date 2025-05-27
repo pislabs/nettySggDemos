@@ -1,4 +1,4 @@
-package com.sgg.netty.codec;
+package com.sgg.netty.codec2;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -6,7 +6,6 @@ import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
-import io.netty.handler.codec.protobuf.ProtobufEncoder;
 
 public class NettyServer {
     public static void main(String[] args) throws InterruptedException {
@@ -33,7 +32,7 @@ public class NettyServer {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
                             ChannelPipeline pipeline = ch.pipeline();
-                            pipeline.addLast("decoder", new ProtobufDecoder(StudentPOJO.Student.getDefaultInstance()));
+                            pipeline.addLast("decoder", new ProtobufDecoder(MyDataInfo.MyMessage.getDefaultInstance()));
                             pipeline.addLast(new NettyServerHandler());
                         }
                     }); // 给我们的workGrouop的EventLoop对应的管道设置处理器
