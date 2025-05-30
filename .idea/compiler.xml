@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
-      <module name="sggNettyDemos" target="8" />
+      <module name="sggNettyDemos" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>
