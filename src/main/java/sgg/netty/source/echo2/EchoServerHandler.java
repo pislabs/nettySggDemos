@@ -39,9 +39,9 @@ public class EchoServerHandler extends ChannelInboundHandlerAdapter {
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
         System.out.println("EchoServerHandler的线程是=" + Thread.currentThread().getName());
 
-//        syncExecute(ctx, msg);
+        syncExecute(ctx, msg);
 
-        asyncExecute1(ctx, msg);
+//        asyncExecute1(ctx, msg);
 
         System.out.println("go on");
     }

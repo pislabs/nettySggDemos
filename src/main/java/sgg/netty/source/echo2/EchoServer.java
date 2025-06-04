@@ -25,6 +25,8 @@ import io.netty.handler.logging.LoggingHandler;
 import io.netty.handler.ssl.SslContext;
 import io.netty.handler.ssl.SslContextBuilder;
 import io.netty.handler.ssl.util.SelfSignedCertificate;
+import io.netty.util.concurrent.DefaultEventExecutorGroup;
+import io.netty.util.concurrent.EventExecutorGroup;
 
 /**
  * Echoes back any received data from a client.
@@ -33,6 +35,10 @@ public final class EchoServer {
 
     static final boolean SSL = System.getProperty("ssl") != null;
     static final int PORT = Integer.parseInt(System.getProperty("port", "8007"));
+
+    // 创建业务线程池
+    // 这里创建两个子线程（方便调试）
+    static final EventExecutorGroup group = new DefaultEventExecutorGroup(2);
 
     public static void main(String[] args) throws Exception {
         // Configure SSL.
@@ -61,8 +67,13 @@ public final class EchoServer {
                      if (sslCtx != null) {
                          p.addLast(sslCtx.newHandler(ch.alloc()));
                      }
-                     //p.addLast(new LoggingHandler(LogLevel.INFO));
-                     p.addLast(serverHandler);
+
+                     // p.addLast(new LoggingHandler(LogLevel.INFO));
+//                      p.addLast(serverHandler);
+
+                     // 说明：如果我们在addLast添加handler，前面有指定EventExecuteorGroup,
+                     // 那么该handler会优先加入到该线程池中
+                     p.addLast(group, serverHandler);
                  }
              });
 
